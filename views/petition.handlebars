@@ -7,8 +7,14 @@
     <input type="text" id="ln" name = "ln"></input>
     <lable for="ln">Last Name</lable></div>
     <div class = "signing">
+        <div class="entry">{{#if uncomplete}}
+            <h6>Please complete your signing before submission</h6>
+            {{/if}}
+        </div>
+ <button id = "clear">resign</button>
  <canvas id = "canvas" width="500px" height="100px"></canvas>
- <input type = "text" name = "canvasimg" id = "canvasimg" visibility = "hidden"></input> 
+
+ <input type = "text" name = "canvasimg" id = "canvasimg"></input> 
     </div>  <div><input type="submit" value="submit"></div>
     </form>
   

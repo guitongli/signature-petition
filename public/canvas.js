@@ -1,4 +1,5 @@
 var canvas = document.getElementById("canvas");
+var clear = document.getElementById("clear");
 var ctx = canvas.getContext("2d");
 var currX;
 var currY;
@@ -40,6 +41,10 @@ canvas.addEventListener("mouseup", function (e) {
     var dataURL = canvas.toDataURL();
     document.getElementById("canvasimg").value = dataURL;
     // document.getElementById("canvasimg").style.display = "inline";
+});
+
+clear.addEventListener("mousedown", function () {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 });
 
 // var canvas,
