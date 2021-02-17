@@ -31,8 +31,14 @@ app.get("/petition", (req, res) => {
 });
 app.post("/petition", (req, res) => {
     console.log(req.body);
-    db.insert(req.fn, req.ln, req.canvasimg);
-    res.session.signature = req.canvasimg;
+    db.insert(req.fn, req.ln, req.canvasimg)
+        .then((result) => {
+            console.log(result);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    // res.session.signature = req.canvasimg;
 
     // if (req.body) {
     //     console.log(JSON.parse(req.body));
