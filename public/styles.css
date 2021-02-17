@@ -1,0 +1,27 @@
+header {
+    width: 100% vw;
+    height: 30% vh;
+    display: flex;
+    justify-content: center;
+}
+img {
+    justify-self: center;
+}
+
+.input {
+    display: flex;
+    width: 100%;
+    height: 10%;
+    justify-content: center;
+}
+canvas {
+    border: 3px solid yellow;
+}
+.signing {
+    display: flex;
+    justify-content: center;
+}
+
+#canvasimg {
+    visibility: hidden;
+}
