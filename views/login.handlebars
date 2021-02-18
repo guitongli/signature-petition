@@ -1,0 +1,27 @@
+<form method="POST">
+     
+     {{!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> --}}
+ 
+   
+<div> <lable for="email">Email</lable>
+ <input type="text" id="email" name = "email"></input>
+ </div>
+ <div>
+    <lable for="keys">Password</lable>
+    <input type="text" id="keys" name = "keys"></input>
+    </div>
+
+ 
+<div class="entry">{{#if incomplete}}
+            <h6>Please check your info and submit again</h6>
+            {{/if}}
+        </div>
+        <div class="entry">{{#if internalErr}}
+            <h6>Oops. It's our fault. Try again later!</h6>
+            {{/if}}
+        </div>
+           <div><button type="submit">Submit</button></div>
+
+           <h3>not yet one of us?</h3><a href ="/signup">sign up</a>
+    </form>
+  
