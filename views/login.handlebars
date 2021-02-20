@@ -15,11 +15,15 @@
 <div class="entry">{{#if incomplete}}
             <h6>Please check your info and submit again</h6>
             {{/if}}
-        </div>
-        <div class="entry">{{#if internalErr}}
+</div>
+<div class="entry">{{#if nonexist}}
+            <h6>Email doesn't exist</h6> <a href = "/signup">try signing up</a>
+            {{/if}}
+</div>
+<div class="entry">{{#if internalErr}}
             <h6>Oops. It's our fault. Try again later!</h6>
             {{/if}}
-        </div>
+</div>
            <div><button type="submit">Submit</button></div>
 
            <h3>not yet one of us?</h3><a href ="/signup">sign up</a>

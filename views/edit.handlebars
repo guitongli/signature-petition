@@ -1,0 +1,42 @@
+{{#infoList}}
+<form name = "login" id ="login" method="POST">
+  
+    <div>
+        <label for="firstname">First Name</label>
+        <input type="text" id= "firstname" name ="firstname" value = {{firstname}}></input>
+    </div>
+     {{!-- <input type="hidden" name="_csrf" value="{{csrfToken}}"> --}}
+    <div>
+        <lable for="lastname">Last Name</lable>
+        <input type="text" id="lastname" name = "lastname" value = {{lastname}}></input>
+    </div>
+   
+    <div> <lable for="email">Email</lable>
+        <input type="text" id="email" name = "email" value = {{email}}></input>
+    </div>
+    <div>
+        <lable for="keys">Password</lable>
+        <input type="text" id="keys" name = "keys" value = '******'></input>
+    </div>
+        
+ 
+<div>
+    <lable for="age">Age</lable>
+    <input type="text" id="age" name = "age" value = {{age}}></input>
+    </div>
+ <div>
+    <lable for="city">City</lable>
+    <input type="text" id="city" name = "city" value = {{city}}></input>
+</div>
+<div>
+    <lable for="url">Homepage</lable>
+    <input type="text" id="url" name = "url" value = {{url}}></input>
+</div>
+ 
+
+    <div><button type="submit">Submit Profile Data</button></div>
+
+</form>
+  
+{{/infoList}}
+ 

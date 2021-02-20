@@ -1,6 +1,6 @@
 those who already signed are
-{{#each nameList}}
-<div>{{this}}</div>
+{{#each infoList}}
+<div>{{firstname}}, {{lastname}}, {{age}}, {{city}}</div>
 
-{{/each}}
-<img src = `{{img}}` />
+{{/each}} 
+<a href = `/petition/signers/{{city}}`>see who else signed in {{city}}</a>
