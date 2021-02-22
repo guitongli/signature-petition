@@ -1,5 +1,4 @@
-//to do: https://github.com/expressjs/csurf, adjust login, css, city api, pre-population/placeholder value/ actual value?
-// update function
+//  adjust login, css,
 
 const express = require("express");
 const app = express();
@@ -7,7 +6,7 @@ const db = require("./db");
 const cookieSession = require("cookie-session");
 const hb = require("express-handlebars");
 const { hash, compare } = require("./bc.js");
-// const csurf = require("csurf");
+const csurf = require("csurf");
 // const bodyParser = require("body-parser");
 let cookie_sec;
 
@@ -16,9 +15,9 @@ app.set("view engine", "handlebars");
 
 // app.locals.helpers;
 
-// var csrfProtection = csurf({ cookie: true });
+var csrfProtection = csurf();
 // app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(csurf({ cookie: true }));
+// app.use(csurf());
 
 if (process.env.COOKIE_SECRET) {
     cookie_sec = process.env.COOKIE_SECRET;
@@ -54,19 +53,21 @@ app.get("/", (req, res) => {
     }
 });
 
-app.get("/signup", (req, res) => {
+app.get("/signup", csrfProtection, (req, res) => {
     res.render("signup", {
         layout: "welcoming",
         incomplete: false,
+        csrfToken: req.csrfToken(),
     });
 });
-app.post("/signup", (req, res) => {
+app.post("/signup", csrfProtection, (req, res) => {
     const { firstname, lastname, keys, email } = req.body;
     console.log(firstname, lastname, email, keys);
     if (!firstname || !lastname || !keys || !email) {
         res.render("signup", {
             layout: "welcoming",
             incomplete: true,
+            csrfToken: req.csrfToken(),
         });
         res.end();
     }
@@ -89,24 +90,26 @@ app.post("/signup", (req, res) => {
             res.render("signup", {
                 layout: "welcoming",
                 internalErr: true,
+                csrfToken: req.csrfToken(),
             });
             res.end();
         });
 });
 
-app.get("/login", (req, res) => {
+app.get("/login", csrfProtection, (req, res) => {
     res.render("login", {
         layout: "welcoming",
+        csrfToken: req.csrfToken(),
     });
 });
-app.post("/login", (req, res) => {
+app.post("/login", csrfProtection, (req, res) => {
     const { email, keys } = req.body;
     if (!email || !keys) {
         res.render("login", {
             layout: "welcoming",
             incomplete: true,
+            csrfToken: req.csrfToken(),
         });
-        res.end();
     } else {
         db.getInfo(email)
             .then((info) => {
@@ -117,6 +120,8 @@ app.post("/login", (req, res) => {
                         if (result == true) {
                             db.getImg(info.rows[0].id)
                                 .then((signature) => {
+                                    console.log(signature);
+                                    // res.redirect("/petition");
                                     if (!signature.rows[0]) {
                                         res.redirect("/petition");
                                     } else if (signature.row[0]) {
@@ -131,6 +136,7 @@ app.post("/login", (req, res) => {
                             res.render("login", {
                                 layout: "welcoming",
                                 incomplete: true,
+                                csrfToken: req.csrfToken(),
                             });
                         }
                     })
@@ -143,18 +149,20 @@ app.post("/login", (req, res) => {
                 res.render("login", {
                     layout: "welcoming",
                     nonexist: true,
+                    csrfToken: req.csrfToken(),
                 });
             });
     }
 });
 
-app.get("/profile", (req, res) => {
+app.get("/profile", csrfProtection, (req, res) => {
     res.render("profile", {
         layout: "welcoming",
+        csrfToken: req.csrfToken(),
     });
 });
 
-app.post("/profile", (req, res) => {
+app.post("/profile", csrfProtection, (req, res) => {
     var { age, city, url, statement } = req.body;
     if (url.indexOf("http://") !== 0 && url.indexOf("https://") !== 0) {
         url = "http://" + url;
@@ -171,20 +179,20 @@ app.post("/profile", (req, res) => {
         });
 });
 
-app.get("/petition", (req, res) => {
+app.get("/petition", csrfProtection, (req, res) => {
     res.render("petition", {
         layout: "main",
-        // csrfToken: req.csrfToken(),
+        csrfToken: req.csrfToken(),
     });
 });
-app.post("/petition", (req, res) => {
+app.post("/petition", csrfProtection, (req, res) => {
     console.log(req.body);
     // console.log(req.body.fn, req.body.ln, req.body.canvasimg);
     if (!req.body.canvasimg) {
         res.render("petition", {
             layout: "main",
             uncomplete: true,
-            // csrfToken: req.csrfToken(),
+            csrfToken: req.csrfToken(),
         });
     } else {
         const user_id = req.session.userID;
@@ -204,16 +212,27 @@ app.post("/petition", (req, res) => {
 
 app.get("/thanks", (req, res) => {
     var img = req.session.signature;
-    document.getElementById("canvasimg").src = img;
-    db.countUsers()
-        .then((count) => {
-            var signedNumber = count.rows[0].count;
-            res.render("thanks", {
-                layout: "signed",
-                signedNumber,
-                img,
-                // csrfToken: req.csrfToken(),
-            });
+    var id = req.session.userID;
+    console.log(img);
+    db.getProgress(id)
+        .then((result) => {
+            const { firstname, lastname } = result.rows[0];
+
+            db.countUsers()
+                .then((count) => {
+                    var signedNumber = count.rows[0].count;
+                    res.render("thanks", {
+                        layout: "signed",
+                        signedNumber,
+                        img,
+                        firstname,
+                        lastname,
+                        // csrfToken: req.csrfToken(),
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         })
         .catch((err) => {
             console.log(err);
@@ -244,7 +263,6 @@ app.get("/petition/signers", (req, res) => {
                         layout: "signed",
                         infoList,
                         city,
-                        // csrfToken: req.csrfToken(),
                     });
                 })
                 .catch((err) => {
@@ -268,7 +286,7 @@ app.get("/petition/signers/:city", (req, res) => {
     });
 });
 
-app.get("/profile/edit", (req, res) => {
+app.get("/profile/edit", csrfProtection, (req, res) => {
     const id = req.session.userID;
     db.getProgress(id)
         .then((joint) => {
@@ -276,13 +294,14 @@ app.get("/profile/edit", (req, res) => {
             res.render("edit", {
                 layout: "signed",
                 infoList,
+                csrfToken: req.csrfToken(),
             });
         })
         .catch((err) => {
             console.log(err);
         });
 });
-app.post("/profile/edit", (req, res) => {
+app.post("/profile/edit", csrfProtection, (req, res) => {
     const id = req.session.userID;
     var {
         newFirstname,
@@ -301,7 +320,7 @@ app.post("/profile/edit", (req, res) => {
         .catch((Err) => {
             console.log(Err);
         });
-    if (newKeys !== "******") {
+    if (newKeys) {
         console.log(newKeys);
         hash(newKeys).then((hashedKey) => {
             console.log(hashedKey);
