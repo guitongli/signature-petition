@@ -1,5 +1,11 @@
 const spicedPg = require("spiced-pg");
-const db = spicedPg("postgres:postgres:postgres@localhost:5432/petition");
+let db;
+if (process.env.DATABASE_URL) {
+    db = spicedPg(process.env.DATABASE_URL);
+} else {
+    // const{dbuser, dbpass} = require('../secrets.js')
+    db = spicedPg("postgres:postgres:postgres@localhost:5432/petition");
+}
 
 module.exports.insertUser = (firstname, lastname, email, hashkeys) => {
     const q = `INSERT INTO users (firstname, lastname, email, hashkeys)
@@ -79,11 +85,18 @@ module.exports.getCitySigners = (city) => {
     return db.query(q, param);
 };
 
-module.exports.updatetUser = (column, value, id) => {
+module.exports.updateUser = (
+    newFirstname,
+
+    newLastname,
+
+    newEmail,
+    id
+) => {
     const q = `UPDATE users
-    SET $1 = '$2'
-    WHERE id = $3;`;
-    const params = [column, value, id];
+    SET firstname = $1, lastname = $2, email = $3
+    WHERE id = $4;`;
+    const params = [newFirstname, newLastname, newEmail, id];
     return db.query(q, params);
 };
 module.exports.insertUserPro = (age, city, url, user_id) => {
@@ -96,11 +109,10 @@ RETURNING *;`;
     return db.query(q, params);
 };
 
-module.exports.updateSig = (value, id) => {
-    const q = `UPDATE signatures
-    SET canvasimg = '$1'
-    WHERE user_id = $2;`;
-    const params = [value, id];
+module.exports.deleteSig = (id) => {
+    const q = `DELETE from signatures
+    WHERE user_id = $1;`;
+    const params = [id];
     return db.query(q, params);
 };
 // module.exports.insert = () => {

@@ -3,4 +3,6 @@ those who already signed are
 <div>{{firstname}}, {{lastname}}, {{age}}, {{city}}</div>
 
 {{/each}} 
+{{#if city}}
 <a href = `/petition/signers/{{city}}`>see who else signed in {{city}}</a>
+{{/if}}

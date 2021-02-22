@@ -1,4 +1,5 @@
-//to do: https://github.com/expressjs/csurf, adjust login, css, city api
+//to do: https://github.com/expressjs/csurf, adjust login, css, city api, pre-population/placeholder value/ actual value?
+// update function
 
 const express = require("express");
 const app = express();
@@ -112,7 +113,7 @@ app.post("/login", (req, res) => {
                                     if (!signature.rows[0]) {
                                         res.redirect("/petition");
                                     } else if (signature.row[0]) {
-                                        res.redirect("/signers");
+                                        res.redirect("/thanks");
                                     }
                                 })
                                 .catch((err) => {
@@ -196,6 +197,7 @@ app.post("/petition", (req, res) => {
 
 app.get("/thanks", (req, res) => {
     var img = req.session.signature;
+    document.getElementById("canvasimg").src = img;
     db.countUsers()
         .then((count) => {
             var signedNumber = count.rows[0].count;
@@ -211,22 +213,23 @@ app.get("/thanks", (req, res) => {
         });
 });
 app.post("/thanks", (req, res) => {
-    if (!req.body) {
-        const id = req.session.userID;
-        db.updateSig(null, id)
-            .then((result) => {
-                res.redirect("/petition");
-            })
-            .catch((Err) => {
-                console.log(Err);
-            });
-    }
+    console.log(req.body);
+    const id = req.session.userID;
+    db.deleteSig(id)
+        .then((result) => {
+            res.redirect("/petition");
+            req.session.signature = null;
+        })
+        .catch((Err) => {
+            console.log(Err);
+        });
 });
 app.get("/petition/signers", (req, res) => {
     const id = req.session.userID;
     db.getProgress(id)
         .then((joint) => {
             const city = joint.rows[0].city;
+            console.log(city);
             db.getNames()
                 .then((joint) => {
                     const infoList = joint.rows;
@@ -284,11 +287,7 @@ app.post("/profile/edit", (req, res) => {
         newUrl,
     } = req.body;
 
-    const q1 = db.updateUser("firstname", newFirstname, id);
-    const q2 = db.updateUser("lastname", newLastname, id);
-    const q3 = db.updateUser("email", newEmail, id);
-
-    Promise.all([q1, q2, q3])
+    db.updateUser(newFirstname, newLastname, newEmail, id)
         .then((result) => {
             console.log(result);
         })
@@ -296,7 +295,9 @@ app.post("/profile/edit", (req, res) => {
             console.log(Err);
         });
     if (newKeys !== "******") {
+        console.log(newKeys);
         hash(newKeys).then((hashedKey) => {
+            console.log(hashedKey);
             db.updateUser("hashkeys", hashedKey, id);
         });
     }
@@ -313,4 +314,5 @@ app.post("/profile/edit", (req, res) => {
 
     res.redirect("/profile");
 });
-app.listen(8080, () => console.log("hi"));
+
+app.listen(process.env.PORT || 8080, () => console.log("hi"));
