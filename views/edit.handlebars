@@ -1,11 +1,11 @@
 {{#infoList}}
 <form name = "login" id ="login" method="POST">
   
+     <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <div>
         <label for="firstname">First Name</label>
         <input type="text" id= "firstname" name ="firstname" value = {{firstname}}></input>
     </div>
-     <input type="hidden" name="_csrf" value="{{csrfToken}}">
     <div>
         <lable for="lastname">Last Name</lable>
         <input type="text" id="lastname" name = "lastname" value = {{lastname}}></input>

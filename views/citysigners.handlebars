@@ -1,6 +1,7 @@
 those who already signed in {{city}} are
 {{#each userList}}
-<div><a href = `{{url}}`>{{firstname}} {{lastname}}</a>, {{age}}</div>
-
+{{#if url}}
+<div><a href = "{{url}}>{{firstname}} {{lastname}}</a>, {{age}}</div>
+{{/if}}
 {{/each}} 
  

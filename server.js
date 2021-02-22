@@ -17,7 +17,6 @@ app.set("view engine", "handlebars");
 
 var csrfProtection = csurf();
 // app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(csurf());
 
 if (process.env.COOKIE_SECRET) {
     cookie_sec = process.env.COOKIE_SECRET;
@@ -164,7 +163,7 @@ app.get("/profile", csrfProtection, (req, res) => {
 
 app.post("/profile", csrfProtection, (req, res) => {
     var { age, city, url, statement } = req.body;
-    if (url.indexOf("http://") !== 0 && url.indexOf("https://") !== 0) {
+    if (url && url.indexOf("http://") !== 0 && url.indexOf("https://") !== 0) {
         url = "http://" + url;
     }
     const id = req.session.userID;
@@ -327,7 +326,11 @@ app.post("/profile/edit", csrfProtection, (req, res) => {
             db.updateUser("hashkeys", hashedKey, id);
         });
     }
-    if (newUrl.indexOf("http://") !== 0 && newUrl.indexOf("https://") !== 0) {
+    if (
+        newUrl &&
+        newUrl.indexOf("http://") !== 0 &&
+        newUrl.indexOf("https://") !== 0
+    ) {
         newUrl = "http://" + newUrl;
     }
     db.insertUserPro(newAge, newCity, newUrl, id)
