@@ -20,16 +20,15 @@ app.set("view engine", "handlebars");
 // app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(csurf({ cookie: true }));
 
-if(process.env.COOKIE_SECRET){
-    cookie_sec = process.env.COOKIE_SECRET}
-
+if (process.env.COOKIE_SECRET) {
+    cookie_sec = process.env.COOKIE_SECRET;
 } else {
-    cookie_sec = require('./secrets.json').cookie_secret;
+    cookie_sec = require("./secrets.json").cookie_secret;
 }
 
 app.use(
     cookieSession({
-        secret: `${cookie_sec}`,
+        secret: cookie_sec,
         maxAge: 1000 * 60 * 60 * 24,
     })
 );

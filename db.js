@@ -3,8 +3,8 @@ let db;
 if (process.env.DATABASE_URL) {
     db = spicedPg(process.env.DATABASE_URL);
 } else {
-    // const{dbuser, dbpass} = require('../secrets.js')
-    db = spicedPg("postgres:postgres:postgres@localhost:5432/petition");
+    // const { db_user, db_secret } = require("./secrets.json");
+    db = spicedPg(`postgres:postgres:postgres@localhost:5432/petition`);
 }
 
 module.exports.insertUser = (firstname, lastname, email, hashkeys) => {
