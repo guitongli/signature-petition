@@ -9,6 +9,7 @@ const hb = require("express-handlebars");
 const { hash, compare } = require("./bc.js");
 // const csurf = require("csurf");
 // const bodyParser = require("body-parser");
+let cookie_sec;
 
 app.engine("handlebars", hb());
 app.set("view engine", "handlebars");
@@ -19,9 +20,16 @@ app.set("view engine", "handlebars");
 // app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(csurf({ cookie: true }));
 
+if(process.env.COOKIE_SECRET){
+    cookie_sec = process.env.COOKIE_SECRET}
+
+} else {
+    cookie_sec = require('./secrets.json').cookie_secret;
+}
+
 app.use(
     cookieSession({
-        secret: `lastname matters`,
+        secret: `${cookie_sec}`,
         maxAge: 1000 * 60 * 60 * 24,
     })
 );
