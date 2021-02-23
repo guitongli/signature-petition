@@ -1,13 +1,19 @@
-<form method="POST">
+<div class ='petition'><form method="POST">
      
-        <div class="entry">{{#if uncomplete}}
+<h1>Hand Sign</h1>
+<input type="hidden" name="_csrf" value="{{csrfToken}}">
+ 
+
+<canvas class = 'petition__canvas' id = "canvas" width="300px" height="100px"></canvas>
+<div class = 'underline'> -----</div>
+<input name = "canvasimg" id = "canvasimg" type = "hidden"></input> 
+<div class="entry">{{#if uncomplete}}
             <h6>Please complete your signing before submission</h6>
             {{/if}}
-        </div>
-<input type="hidden" name="_csrf" value="{{csrfToken}}">
- <canvas id = "canvas" width="500px" height="100px"></canvas>
- <button id = "clear">resign</button>
- <input type = "text" name = "canvasimg" id = "canvasimg" visibility = 'hidden'></input> 
-       <div><button type="submit">Submit</button></div>
+            
+</div>  
+<div class ='buttongroup'> <div><button type="submit">Submit</button></div>
+<div id = "clear">resign</div></div>
     </form>
   
+</div>

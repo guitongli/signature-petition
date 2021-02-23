@@ -34,27 +34,25 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 //add
 app.use((req, res, next) => {
+    if (req.session.userID) {
+        next();
+    } else {
+        res.redirect("/login");
+    }
     // res.redirect("/signup"); !!!
     // need to solve double entry problem
     // need to detect both signed and registered and redirect
-    return next();
 });
 
 app.get("/", (req, res) => {
-    if (req.session.userID) {
-        if (req.session.signature) {
-            res.redirect("/petition/signers");
-        } else {
-            res.redirect("/petition");
-        }
-    } else {
-        res.redirect("/signup");
-    }
+    res.render("landing", {
+        layout: "landing_signup",
+    });
 });
 
 app.get("/signup", csrfProtection, (req, res) => {
     res.render("signup", {
-        layout: "welcoming",
+        layout: "landing_signup",
         incomplete: false,
         csrfToken: req.csrfToken(),
     });
@@ -64,11 +62,10 @@ app.post("/signup", csrfProtection, (req, res) => {
     console.log(firstname, lastname, email, keys);
     if (!firstname || !lastname || !keys || !email) {
         res.render("signup", {
-            layout: "welcoming",
+            layout: "landing_signup",
             incomplete: true,
             csrfToken: req.csrfToken(),
         });
-        res.end();
     }
 
     hash(keys)
@@ -87,7 +84,7 @@ app.post("/signup", csrfProtection, (req, res) => {
         .catch((err) => {
             console.log(err);
             res.render("signup", {
-                layout: "welcoming",
+                layout: "landing_signup",
                 internalErr: true,
                 csrfToken: req.csrfToken(),
             });
@@ -97,7 +94,7 @@ app.post("/signup", csrfProtection, (req, res) => {
 
 app.get("/login", csrfProtection, (req, res) => {
     res.render("login", {
-        layout: "welcoming",
+        layout: "forlogin",
         csrfToken: req.csrfToken(),
     });
 });
@@ -105,7 +102,7 @@ app.post("/login", csrfProtection, (req, res) => {
     const { email, keys } = req.body;
     if (!email || !keys) {
         res.render("login", {
-            layout: "welcoming",
+            layout: "forlogin",
             incomplete: true,
             csrfToken: req.csrfToken(),
         });
@@ -133,7 +130,7 @@ app.post("/login", csrfProtection, (req, res) => {
                                 });
                         } else {
                             res.render("login", {
-                                layout: "welcoming",
+                                layout: "forlogin",
                                 incomplete: true,
                                 csrfToken: req.csrfToken(),
                             });
@@ -146,7 +143,7 @@ app.post("/login", csrfProtection, (req, res) => {
             .catch((err) => {
                 console.log(err);
                 res.render("login", {
-                    layout: "welcoming",
+                    layout: "forlogin",
                     nonexist: true,
                     csrfToken: req.csrfToken(),
                 });
@@ -156,7 +153,7 @@ app.post("/login", csrfProtection, (req, res) => {
 
 app.get("/profile", csrfProtection, (req, res) => {
     res.render("profile", {
-        layout: "welcoming",
+        layout: "landing_signup",
         csrfToken: req.csrfToken(),
     });
 });
@@ -180,7 +177,7 @@ app.post("/profile", csrfProtection, (req, res) => {
 
 app.get("/petition", csrfProtection, (req, res) => {
     res.render("petition", {
-        layout: "main",
+        layout: "signature",
         csrfToken: req.csrfToken(),
     });
 });
@@ -189,7 +186,7 @@ app.post("/petition", csrfProtection, (req, res) => {
     // console.log(req.body.fn, req.body.ln, req.body.canvasimg);
     if (!req.body.canvasimg) {
         res.render("petition", {
-            layout: "main",
+            layout: "signature",
             uncomplete: true,
             csrfToken: req.csrfToken(),
         });
@@ -259,7 +256,7 @@ app.get("/petition/signers", (req, res) => {
                 .then((joint) => {
                     const infoList = joint.rows;
                     res.render("signers", {
-                        layout: "signed",
+                        layout: "signers",
                         infoList,
                         city,
                     });
@@ -287,6 +284,7 @@ app.get("/petition/signers/:city", (req, res) => {
 
 app.get("/profile/edit", csrfProtection, (req, res) => {
     const id = req.session.userID;
+    console.log("token is here", req.csrfToken());
     db.getProgress(id)
         .then((joint) => {
             const infoList = joint.rows[0];

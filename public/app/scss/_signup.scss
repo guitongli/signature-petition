@@ -1,0 +1,24 @@
+.signup {
+    h1 {
+        justify-self: center;
+        position: relative;
+        left: 30px;
+    }
+    &__entry {
+        display: flex;
+        align-items: center;
+        background-color: lightgrey;
+        border-radius: 50px;
+        height: 50px;
+        margin: 20px 20px 20px 20px;
+    }
+    &__entry img {
+        height: 50px;
+    }
+    &__entry input {
+        border: none;
+        outline: none;
+        background-color: lightgrey;
+        align-self: center;
+    }
+}

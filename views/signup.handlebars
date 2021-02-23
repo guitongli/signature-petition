@@ -1,20 +1,22 @@
-<form method="POST">
-    <div>
-        <label for="firstname">First Name</label>
-        <input type="text" id= "firstname" name ="firstname"></input>
-    </div>
-     <input type="hidden" name="_csrf" value="{{csrfToken}}">
-<div>
- <lable for="lastname">Last Name</lable>
-  <input type="text" id="lastname" name = "lastname"></input>
+<div class ='signup'>
+                      
+<form id = 'form' method="POST">
+     <h1>Sign up</h1> 
+       <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <div class = 'signup__entry'>
+        <img src="./app/images/icon-online.svg" alt="firstimg">
+        <input type="text" id= "firstname" name ="firstname" placeholder = 'Firstname'></input>
+  
+  <input type="text" id="lastname" name = "lastname" placeholder="Lastname"></input>
 </div>
    
-<div> <lable for="email">Email</lable>
- <input type="text" id="email" name = "email"></input>
+<div class = 'signup__entry'> 
+    <img src="./app/images/icon-budgeting.svg" alt="emailimg"> 
+ <input type="text" id="email" name = "email" placeholder="E-mail"></input>
  </div>
- <div>
-    <lable for="keys">Password</lable>
-    <input type="password" id="keys" name = "keys"></input>
+ <div class = 'signup__entry'>
+    <img src="./app/images/icon-onboarding.svg">
+    <input type="password" id="keys" name = "keys" placeholder="Password"></input>
     </div>
 
  
@@ -26,8 +28,8 @@
             <h6>Oops. It's our fault. Try again later!</h6>
             {{/if}}
         </div>
-           <div><button type="submit">Submit</button></div>
+           <div><button id = "signup" type="submit">Submit</button></div>
 
-           <h3>already one of us?</h3><a href ="/login">login</a>
+           
     </form>
-  
+  </div>

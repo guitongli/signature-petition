@@ -1,0 +1,79 @@
+@import "variables";
+@import "media-queries";
+
+%align-center {
+    display: flex;
+    align-items: center;
+}
+.navbar {
+    background-color: $veryLightGray;
+
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem calc((100vw - 1200px) / 2);
+    z-index: 10;
+    position: relative;
+
+    &__logo {
+        cursor: pointer;
+        margin-left: 30px;
+        @extend%align-center;
+    }
+    &__bars {
+        opacity: 0;
+        @include tablet {
+            color: $darkBlue;
+            opacity: 1;
+            position: absolute;
+            top: 22px;
+            right: 20px;
+            font-size: 1rem;
+        }
+    }
+    &__menu {
+        @extend%align-center;
+        list-style: none;
+        text-align: center;
+        margin-right: 28px;
+        // justify-content: space-between;
+
+        @include tablet {
+            display: none;
+        }
+
+        &__links {
+            color: $darkBlue;
+            @extend%align-center;
+            justify-content: center;
+            text-decoration: none;
+            padding: 0 1rem;
+            // margin-left: 124px;
+
+            &:hover {
+                color: $limeGreen;
+                transition: all 0.3s ease;
+            }
+        }
+        #button {
+            padding: 12px 24px;
+            border: none;
+            outline: none;
+            border-radius: 4px;
+            background-image: linear-gradient(
+                to right,
+                $brightCyan,
+                $limeGreen
+            );
+
+            &:hover {
+                background-image: linear-gradient(
+                    to right,
+                    $brightCyan,
+                    $darkBlue
+                );
+                transition: all 0.3s ease;
+            }
+        }
+    }
+}

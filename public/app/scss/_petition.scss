@@ -1,0 +1,54 @@
+@import "variables";
+
+.underline {
+    border-radius: 5px;
+    height: 5px;
+    background-color: $grayishBlue;
+    color: $grayishBlue;
+}
+
+#clear {
+}
+.showlong {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 299;
+    font-size: 1rem;
+
+    height: 40px;
+
+    border-radius: 4px;
+    background-image: linear-gradient(to right, $brightCyan, $limeGreen);
+    transition: all 0.3s;
+
+    position: relative;
+    cursor: pointer;
+    margin-left: 40px;
+
+    &:after {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        background-image: linear-gradient(to right, $brightCyan, $darkBlue);
+        transition: all 0.3s;
+        border-radius: 4px;
+    }
+    &:hover:after {
+        width: 100%;
+    }
+    & a {
+        color: $darkBlue;
+        text-decoration: none;
+    }
+}
+.buttongroup {
+    display: flex;
+}
+
+.delete {
+    border: none;
+}

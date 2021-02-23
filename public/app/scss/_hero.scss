@@ -1,0 +1,100 @@
+@import "variables";
+@import "media-queries";
+
+.hero {
+    // background-color: red($color: #000000);
+    background-color: $veryLightGray;
+
+    &__container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        justify-items: center;
+        margin: 0 auto;
+        height: 90vh;
+        max-width: 1200px;
+        padding-right: 28px;
+
+        @include tablet {
+            grid-template-columns: 1fr;
+            height: 100%;
+        }
+        &__left {
+            width: 100%;
+            line-height: 1.2;
+
+            @include tablet {
+                padding: 5rem 0;
+            }
+        }
+
+        &__left h1 {
+            font-size: 3rem;
+            color: $darkBlue;
+            margin-left: 40px;
+            @include tablet {
+                font-size: 1.5rem;
+            }
+        }
+        &__left p {
+            font-size: 2rem;
+            color: $darkBlue;
+            margin-top: 1rem;
+            font-weight: 700;
+            margin-left: 40px;
+            @include tablet {
+                font-size: 1.5rem;
+            }
+        }
+        &__left button {
+            padding: 12px 24px;
+            border: none;
+            outline: none;
+            border-radius: 4px;
+            background-image: linear-gradient(
+                to right,
+                $brightCyan,
+                $limeGreen
+            );
+            transition: all 0.3s;
+            outline: none;
+            position: relative;
+            cursor: pointer;
+            margin-left: 40px;
+
+            &:after {
+                position: absolute;
+                content: "";
+                top: 0;
+                left: 0;
+                width: 0;
+                height: 100%;
+                background-image: linear-gradient(
+                    to right,
+                    $brightCyan,
+                    $darkBlue
+                );
+                transition: all 0.3s;
+                border-radius: 4px;
+            }
+            &:hover:after {
+                width: 100%;
+            }
+        }
+        &__right img {
+            width: 150%;
+            height: 150%;
+            position: relative;
+            right: 100px;
+        }
+        &__btn a {
+            position: relative;
+            z-index: 2;
+            color: $lightGrayishBlue;
+        }
+
+        &__right {
+            text-align: center;
+        }
+    }
+}
