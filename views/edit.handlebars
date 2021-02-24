@@ -1,39 +1,40 @@
 
      
-<form name = "login" id ="login" method="POST">
+<form name = "edit" id ="edit" method="POST">
   <input type="hidden" name="_csrf" value="{{csrfToken}}">
-     <h2>{{csrfToken}}</h2>
+     <h1>Profile Edit</h1>
      
      {{#infoList}}
-    <div>
-        <label for="firstname">First Name</label>
-        <input type="text" id= "firstname" name ="firstname" value = {{firstname}}></input>
+    <div class = 'signup__entry'>
+        <label class = 'signup__entry__lable' for="firstname">First Name</label>
+        <input type="text" id= "firstname" name ="newFirstname" value = {{firstname}}></input>
     </div>
-    <div>
-        <lable for="lastname">Last Name</lable>
-        <input type="text" id="lastname" name = "lastname" value = {{lastname}}></input>
+    <div class = 'signup__entry'>
+        <lable class = 'signup__entry__lable' for="lastname">Last Name</lable>
+        <input type="text" id="lastname" name = "newLastname" value = {{lastname}}></input>
     </div>
    
-    <div> <lable for="email">Email</lable>
-        <input type="text" id="email" name = "email" value = {{email}}></input>
+    <div class = 'signup__entry'> 
+        <lable class = 'signup__entry__lable' for="email">Email</lable>
+        <input type="text" id="email" name = "newEmail" value = {{email}}></input>
     </div>
-    <div>
-        <lable for="keys">Password</lable>
-        <input type="password" id="keys" name = "keys" placeholder="********"></input>
+    <div class = 'signup__entry'>
+        <lable class = 'signup__entry__lable' for="keys">Password</lable>
+        <input type="password" id="keys" name = "newKeys" placeholder="********"></input>
     </div>
         
  
-<div>
-    <lable for="age">Age</lable>
-    <input type="text" id="age" name = "age" value = {{age}}></input>
+<div class = 'signup__entry'>
+    <lable class = 'signup__entry__lable' for="newAge">Age</lable>
+    <input type="text" id="age" name = "newAge" value = {{age}}></input>
     </div>
- <div>
-    <lable for="city">City</lable>
-    <input type="text" id="city" name = "city" value = {{city}}></input>
+ <div class = 'signup__entry'>
+    <lable class = 'signup__entry__lable' for="city">City</lable>
+    <input type="text" id="city" name = "newCity" value = {{city}}></input>
 </div>
-<div>
-    <lable for="url">Homepage</lable>
-    <input type="text" id="url" name = "url" value = {{url}}></input>
+<div class = 'signup__entry'>
+    <lable class = 'signup__entry__lable' for="url">Homepage</lable>
+    <input type="text" id="url" name = "newUrl" value = {{url}}></input>
 </div>
  
 
@@ -43,3 +44,23 @@
   
 {{/infoList}}
  
+
+{{!--                      
+                    <form method="POST">
+    <div class = 'signup__entry'>
+        <img src="./app/images/icon-online.svg" alt="firstimg">
+        <input type="text" id= "age" name ="age" placeholder="Age"></input>
+    </div>
+     <input type="hidden" name="_csrf" value="{{csrfToken}}">
+<div class = 'signup__entry'> 
+       <img src="./app/images/icon-budgeting.svg" alt="emailimg"> 
+  <input type="text" id="city" name = "city" placeholder="City"></input>
+</div>
+   
+<div class = 'signup__entry'>  
+    <img src="./app/images/icon-onboarding.svg">
+ <input type="text" id="url" name = "url" placeholder="Personal url"></input>
+ </div>
+  --}}
+
+  

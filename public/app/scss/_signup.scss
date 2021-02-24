@@ -1,3 +1,4 @@
+@import "variables";
 .signup {
     h1 {
         justify-self: center;
@@ -11,6 +12,11 @@
         border-radius: 50px;
         height: 50px;
         margin: 20px 20px 20px 20px;
+
+        &__lable {
+            font-size: 0.8rem;
+            color: $limeGreen;
+        }
     }
     &__entry img {
         height: 50px;

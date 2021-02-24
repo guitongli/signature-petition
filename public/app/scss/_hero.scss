@@ -3,7 +3,6 @@
 
 .hero {
     // background-color: red($color: #000000);
-    background-color: $veryLightGray;
 
     &__container {
         display: grid;
@@ -88,6 +87,9 @@
         &__big {
             width: 150%;
             height: 150%;
+            position: relative;
+            left: 140px;
+            z-index: -1;
         }
         &__btn a {
             position: relative;

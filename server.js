@@ -1,5 +1,3 @@
-//  adjust login, css,
-
 const express = require("express");
 const app = express();
 const db = require("./db");
@@ -14,7 +12,7 @@ const {
     checkNotSigned,
     checkSigned,
 } = require("./middleware");
-
+var currentID;
 let cookie_sec;
 
 app.engine("handlebars", hb());
@@ -35,12 +33,14 @@ app.use(
     cookieSession({
         secret: cookie_sec,
         maxAge: 1000 * 60 * 60 * 24,
+        ecure: false,
     })
 );
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 //add
 app.use((req, res, next) => {
+    console.log("redireted", req.session.userID);
     res.setHeader("X-Frame-Options", "DENY");
     next();
     // res.redirect("/signup"); !!!
@@ -63,7 +63,7 @@ app.get("/signup", checkLoggedOut, csrfProtection, (req, res) => {
 });
 app.post("/signup", csrfProtection, (req, res) => {
     const { firstname, lastname, keys, email } = req.body;
-    console.log(firstname, lastname, email, keys);
+    console.log(req.session);
     if (!firstname || !lastname || !keys || !email) {
         res.render("signup", {
             layout: "landing_signup",
@@ -78,6 +78,8 @@ app.post("/signup", csrfProtection, (req, res) => {
                 .insertUser(firstname, lastname, email, hashedkeys)
                 .then((returns) => {
                     req.session.userID = returns.rows[0].id;
+                    currentID = returns.rows[0].id;
+                    console.log("signup id", req.session.userID);
                     res.redirect("/profile");
                     res.end();
                 })
@@ -115,17 +117,31 @@ app.post("/login", csrfProtection, (req, res) => {
             .then((info) => {
                 const hashkeys = info.rows[0].hashkeys;
                 req.session.userID = info.rows[0].id;
+                currentID = info.rows[0].id;
+                console.log("loggedid", info.rows[0].id);
+                console.log(req.session.userID);
                 compare(keys, hashkeys)
                     .then((result) => {
                         if (result == true) {
                             db.getImg(info.rows[0].id)
                                 .then((signature) => {
-                                    console.log(signature);
+                                    console.log(
+                                        "verified",
+                                        req.session.userID,
+                                        info.rows[0].id
+                                    );
                                     // res.redirect("/petition");
-                                    if (!signature.rows[0]) {
-                                        res.redirect("/petition");
-                                    } else if (signature.row[0]) {
+                                    if (signature.rows[0].canvasimg) {
+                                        req.session.signature =
+                                            signature.rows[0].canvasimg;
+                                        console.log(
+                                            "sigeed id",
+                                            req.session.userID
+                                        );
+
                                         res.redirect("/thanks");
+                                    } else {
+                                        res.redirect("/petition");
                                     }
                                 })
                                 .catch((err) => {
@@ -171,7 +187,7 @@ app.post("/profile", csrfProtection, (req, res) => {
 
     db.insertPro(age, city, url, statement, id)
         .then((result) => {
-            console.log(result);
+            console.log(id);
             res.redirect("/petition");
         })
         .catch((err) => {
@@ -180,13 +196,15 @@ app.post("/profile", csrfProtection, (req, res) => {
 });
 
 app.get("/petition", checkNotSigned, csrfProtection, (req, res) => {
+    req.session.userID = currentID;
     res.render("petition", {
         layout: "signature",
         csrfToken: req.csrfToken(),
     });
+    console.log("notsidned yet", req.session.userID);
 });
 app.post("/petition", csrfProtection, (req, res) => {
-    console.log(req.body);
+    console.log("petition", req.session.userID);
     // console.log(req.body.fn, req.body.ln, req.body.canvasimg);
     if (!req.body.canvasimg) {
         res.render("petition", {
@@ -199,7 +217,7 @@ app.post("/petition", csrfProtection, (req, res) => {
         db.insertSig(req.body.canvasimg, user_id)
             .then((result) => {
                 console.log("returned it");
-                console.log(result.rows);
+                console.log(user_id);
                 return result.rows;
             })
             .catch((err) => {
@@ -210,12 +228,13 @@ app.post("/petition", csrfProtection, (req, res) => {
     }
 });
 
-app.get("/thanks", checkSigned, (req, res) => {
+app.get("/thanks", checkSigned, checkLoggedIn, (req, res) => {
     var img = req.session.signature;
     var id = req.session.userID;
-    console.log(img);
+
     db.getProgress(id)
         .then((result) => {
+            console.log(result);
             const { firstname, lastname } = result.rows[0];
 
             db.countUsers()
@@ -239,7 +258,7 @@ app.get("/thanks", checkSigned, (req, res) => {
         });
 });
 app.post("/thanks", (req, res) => {
-    console.log(req.body);
+    console.log(req.session.userID);
     const id = req.session.userID;
     db.deleteSig(id)
         .then((result) => {
@@ -286,12 +305,13 @@ app.get("/petition/:city", checkLoggedIn, (req, res) => {
     });
 });
 
-app.get("/profile/edit", checkLoggedIn, csrfProtection, (req, res) => {
+app.get("/edit", checkLoggedIn, csrfProtection, (req, res) => {
     const id = req.session.userID;
-    console.log("token is here", req.csrfToken());
+    console.log(id);
     db.getProgress(id)
         .then((joint) => {
             const infoList = joint.rows[0];
+            console.log("infolist", infoList);
             res.render("edit", {
                 layout: "signed",
                 infoList,
@@ -302,8 +322,9 @@ app.get("/profile/edit", checkLoggedIn, csrfProtection, (req, res) => {
             console.log(err);
         });
 });
-app.post("/profile/edit", csrfProtection, (req, res) => {
+app.post("/edit", csrfProtection, (req, res) => {
     const id = req.session.userID;
+    console.log(id);
     var {
         newFirstname,
         newLastname,
@@ -322,28 +343,24 @@ app.post("/profile/edit", csrfProtection, (req, res) => {
             console.log(Err);
         });
     if (newKeys) {
-        console.log(newKeys);
         hash(newKeys).then((hashedKey) => {
-            console.log(hashedKey);
+            console.log(req.session.userID);
             db.updateUser("hashkeys", hashedKey, id);
         });
     }
-    if (
-        newUrl &&
-        newUrl.indexOf("http://") !== 0 &&
-        newUrl.indexOf("https://") !== 0
-    ) {
+    if (newUrl.indexOf("http://") !== 0 && newUrl.indexOf("https://") !== 0) {
         newUrl = "http://" + newUrl;
+        console.log("new url", newUrl);
     }
     db.insertUserPro(newAge, newCity, newUrl, id)
         .then((result) => {
-            console.log(result);
+            console.log(id);
         })
         .catch((err) => {
             console.log(err);
         });
 
-    res.redirect("/profile");
+    res.redirect("/petition/signers");
 });
 
 app.get("/logout", (req, res) => {
