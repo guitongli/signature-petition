@@ -1,9 +1,10 @@
-   <div class = 'banner__text'><div class = 'banner__text__p'>Congrats! you are not alone. they have the same opinion as you</div>
-               <div class = 'banner__text__p'>
+   <div class = 'banner__text'><div class = 'banner__text__p'>Congrats! You are not alone. They have the same thoughts!</div>
+              
                   {{#each infoList}}
-{{firstname}} {{lastname}} 
-
-{{/each}} </div>
+                   <div class = 'banner__text__p'>
+{{firstname}} {{lastname}}, {{age}} {{city}} <a href = "{{url}}">{{url}}</a>
+</div>
+{{/each}} 
 
  <div class="banner__text__p">{{#if city}}
 <a href = "/petition/{{city}}">see who else signed in {{city}}</a>

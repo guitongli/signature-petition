@@ -2,6 +2,8 @@
 @import "media-queries";
 
 .hero {
+    width: 100vw;
+    margin: 0;
     // background-color: red($color: #000000);
 
     &__container {
@@ -11,6 +13,7 @@
         justify-items: center;
         margin: 0 auto;
         height: 90vh;
+        width: 100vw;
         max-width: 1200px;
         padding-right: 28px;
 
@@ -80,15 +83,10 @@
                 width: 100%;
             }
         }
-        &__right img {
-            width: 100%;
-            height: 100%;
-        }
-        &__big {
+
+        &__right__big {
             width: 150%;
             height: 150%;
-            position: relative;
-            left: 140px;
             z-index: -1;
         }
         &__btn a {
@@ -106,7 +104,7 @@
 .banner {
     position: relative;
     width: 100vw;
-    display: flex;
+
     &__text {
         position: absolute;
         align-self: center;
@@ -115,4 +113,15 @@
         color: $veryLightGray;
         font-size: 1.5rem;
     }
+    img {
+        margin: 0;
+        width: 100vw;
+        justify-self: center;
+        z-index: -1;
+        left: 0;
+    }
+}
+
+.fake-button {
+    margin-top: 20px;
 }

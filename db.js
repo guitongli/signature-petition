@@ -115,6 +115,21 @@ module.exports.deleteSig = (id) => {
     const params = [id];
     return db.query(q, params);
 };
+
+module.exports.deleteUserpro = (id) => {
+    const q = `
+    DELETE from userpro
+    WHERE user_id = $1;`;
+    const params = [id];
+    return db.query(q, params);
+};
+module.exports.deleteUser = (id) => {
+    const q = `
+    DELETE from users
+    WHERE id = $1;`;
+    const params = [id];
+    return db.query(q, params);
+};
 // module.exports.insert = () => {
 //     const q = `INSERT INTO signatures (firstname, lastname, img)
 //      VALUES("name", "name", "img") RETURNING *;`;

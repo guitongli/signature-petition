@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+       
+        <title>Welcome</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="./app/scss/style.css" />
+    </head>
+    <body>
+        <header class="header">
+           <nav class="navbar">
+                <a href="/" class="navbar__logo">
+                    <img
+                        src="./app/images/logo.svg"
+                    /></a>
+                    <div class="navbar__bars">
+                        <i class ='fas fa-bars'><img src = "./app/images/icon-hamburger.svg"/></i>
+                    </div>
+                    <div class="navbar__menu">
+                        <a href="/home" class="navbar__menu__links">Home</a>
+                        <a href="/petition/signers" class="navbar__menu__links">Our Signers</a>
+                    <a href="/edit" class="navbar__menu__links" >Edit Profile</a>
+                        <a href="/logout" class="navbar__menu" id="button">Log out</a>
+                    </div>
+            
+                     
+                </nav>
+                </header>
+        <div class="hero">
+
+            <div class="hero__container">
+                        <div class="hero__container__left">
+                           {{{body}}}
+                            
+                        </div>
+                        <div class="hero__container__right">
+                            <img src ="app/images/image-mockups.png">
+        
+                        </div>
+            </div>
+        </div>

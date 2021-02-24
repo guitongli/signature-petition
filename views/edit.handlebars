@@ -36,13 +36,13 @@
     <lable class = 'signup__entry__lable' for="url">Homepage</lable>
     <input type="text" id="url" name = "newUrl" value = {{url}}></input>
 </div>
- 
+ {{/infoList}} 
 
-    <div><button type="submit">Submit Profile Data</button></div>
+    <button type="submit">Submit Profile Data</button> <button class = 'fake-button' onclick="location.href='/goodbye'" id = "signup" type="button">Delete Account</button>
 
 </form>
   
-{{/infoList}}
+
  
 
 {{!--                      

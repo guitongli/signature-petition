@@ -370,5 +370,37 @@ app.get("/logout", (req, res) => {
     req.session.userID = null;
     req.session.signature = null;
 });
+app.get("/home", (req, res) => {
+    res.render("home", {
+        layout: "home",
+    });
+});
+app.get("/goodbye", (req, res) => {
+    var id = req.session.userID;
+    db.deleteSig(id)
+        .then((result) => {
+            db.deleteUserpro(id).then((result) => {
+                db.deleteUser(id)
+                    .then((result) => {
+                        req.session.userID = null;
+                        req.session.signature = null;
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+    res.render("landing", {
+        layout: "landing_signup",
+        deleted: true,
+    });
+});
 
 app.listen(process.env.PORT || 8080, () => console.log("hi"));
