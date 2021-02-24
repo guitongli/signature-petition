@@ -36,8 +36,8 @@ DO UPDATE SET canvasimg = $1
 
     return db.query(q, params);
 };
-module.exports.countUsers = () => {
-    const q = `SELECT COUNT(*) FROM users;`;
+module.exports.countSigners = () => {
+    const q = `SELECT COUNT(*) FROM signatures;`;
     return db.query(q);
 };
 

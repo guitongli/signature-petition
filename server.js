@@ -238,7 +238,7 @@ app.get("/thanks", checkSigned, checkLoggedIn, (req, res) => {
             console.log(result);
             const { firstname, lastname } = result.rows[0];
 
-            db.countUsers()
+            db.countSigners()
                 .then((count) => {
                     var signedNumber = count.rows[0].count;
                     res.render("thanks", {
