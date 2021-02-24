@@ -8,6 +8,7 @@ const csurf = require("csurf");
 // const bodyParser = require("body-parser");
 const {
     checkLoggedIn,
+    checkExisting,
     checkLoggedOut,
     checkNotSigned,
     checkSigned,

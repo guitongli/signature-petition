@@ -29,3 +29,11 @@ module.exports.checkSigned = (req, res, next) => {
         next();
     }
 };
+
+module.exports.checkExisting = (req, res, next) => {
+    if (req.session.userID) {
+        return res.redirect("/petition");
+    } else {
+        next();
+    }
+};
