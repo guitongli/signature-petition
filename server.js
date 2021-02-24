@@ -361,7 +361,7 @@ app.post("/edit", csrfProtection, (req, res) => {
             console.log(err);
         });
 
-    res.redirect("/petition/signers");
+    res.redirect("/home");
 });
 
 app.get("/logout", (req, res) => {
