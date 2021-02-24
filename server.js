@@ -8,6 +8,13 @@ const hb = require("express-handlebars");
 const { hash, compare } = require("./bc.js");
 const csurf = require("csurf");
 // const bodyParser = require("body-parser");
+const {
+    checkLoggedIn,
+    checkLoggedOut,
+    checkNotSigned,
+    checkSigned,
+} = require("./middleware");
+
 let cookie_sec;
 
 app.engine("handlebars", hb());
@@ -44,13 +51,13 @@ app.use((req, res, next) => {
     // need to detect both signed and registered and redirect
 });
 
-app.get("/", (req, res) => {
+app.get("/", checkLoggedOut, (req, res) => {
     res.render("landing", {
         layout: "landing_signup",
     });
 });
 
-app.get("/signup", csrfProtection, (req, res) => {
+app.get("/signup", checkLoggedOut, csrfProtection, (req, res) => {
     res.render("signup", {
         layout: "landing_signup",
         incomplete: false,
@@ -92,7 +99,7 @@ app.post("/signup", csrfProtection, (req, res) => {
         });
 });
 
-app.get("/login", csrfProtection, (req, res) => {
+app.get("/login", checkLoggedOut, csrfProtection, (req, res) => {
     res.render("login", {
         layout: "forlogin",
         csrfToken: req.csrfToken(),
@@ -151,7 +158,7 @@ app.post("/login", csrfProtection, (req, res) => {
     }
 });
 
-app.get("/profile", csrfProtection, (req, res) => {
+app.get("/profile", checkLoggedIn, csrfProtection, (req, res) => {
     res.render("profile", {
         layout: "landing_signup",
         csrfToken: req.csrfToken(),
@@ -175,7 +182,7 @@ app.post("/profile", csrfProtection, (req, res) => {
         });
 });
 
-app.get("/petition", csrfProtection, (req, res) => {
+app.get("/petition", checkNotSigned, csrfProtection, (req, res) => {
     res.render("petition", {
         layout: "signature",
         csrfToken: req.csrfToken(),
@@ -206,7 +213,7 @@ app.post("/petition", csrfProtection, (req, res) => {
     }
 });
 
-app.get("/thanks", (req, res) => {
+app.get("/thanks", checkSigned, (req, res) => {
     var img = req.session.signature;
     var id = req.session.userID;
     console.log(img);
@@ -246,7 +253,7 @@ app.post("/thanks", (req, res) => {
             console.log(Err);
         });
 });
-app.get("/petition/signers", (req, res) => {
+app.get("/petition/signers", checkLoggedIn, (req, res) => {
     const id = req.session.userID;
     db.getProgress(id)
         .then((joint) => {
@@ -270,7 +277,7 @@ app.get("/petition/signers", (req, res) => {
         });
 });
 
-app.get("/petition/signers/:city", (req, res) => {
+app.get("/petition/signers/:city", checkLoggedIn, (req, res) => {
     const { city } = req.params;
     db.getCitySigners(city).then((infoList) => {
         const userList = infoList.rows;
@@ -282,7 +289,7 @@ app.get("/petition/signers/:city", (req, res) => {
     });
 });
 
-app.get("/profile/edit", csrfProtection, (req, res) => {
+app.get("/profile/edit", checkLoggedIn, csrfProtection, (req, res) => {
     const id = req.session.userID;
     console.log("token is here", req.csrfToken());
     db.getProgress(id)
