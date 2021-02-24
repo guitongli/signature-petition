@@ -1,12 +1,12 @@
-exports.checkLoggedIn = (req, res, next) => {
+module.exports.checkLoggedIn = (req, res, next) => {
     if (!req.session.userID) {
-        return res.redirect("/");
+        return res.redirect("/login");
     } else {
         next();
     }
 };
 
-exports.checkLoggedOut = (req, res, next) => {
+module.exports.checkLoggedOut = (req, res, next) => {
     if (req.session.userID) {
         return res.redirect("/petition");
     } else {
@@ -14,7 +14,7 @@ exports.checkLoggedOut = (req, res, next) => {
     }
 };
 
-exports.checkNotSigned = (req, res, next) => {
+module.exports.checkNotSigned = (req, res, next) => {
     if (req.session.signature) {
         return res.redirect("/thanks");
     } else {
@@ -22,7 +22,7 @@ exports.checkNotSigned = (req, res, next) => {
     }
 };
 
-exports.checkSigned = (req, res, next) => {
+module.exports.checkSigned = (req, res, next) => {
     if (!req.session.signature) {
         return res.redirect("/petition");
     } else {

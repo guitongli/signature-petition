@@ -1,8 +1,10 @@
-Congrats! you are not alone. they have the same opinion as you
-{{#each infoList}}
-<div>{{firstname}}, {{lastname}}, {{age}}, {{city}}</div>
+   <div class = 'banner__text'><div class = 'banner__text__p'>Congrats! you are not alone. they have the same opinion as you</div>
+               <div class = 'banner__text__p'>
+                  {{#each infoList}}
+{{firstname}} {{lastname}}, {{age}} from {{city}},
 
-{{/each}} 
-{{#if city}}
-<a href = "/petition/signers/{{city}}">see who else signed in {{city}}</a>
-{{/if}}
+{{/each}} </div>
+
+ <div class="banner__text__p">{{#if city}}
+<a href = "/petition/{{city}}">see who else signed in {{city}}</a>
+{{/if}}</div></div>

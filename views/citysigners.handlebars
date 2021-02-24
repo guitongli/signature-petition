@@ -1,7 +1,11 @@
-those who already signed in {{city}} are
-{{#each userList}}
-{{#if url}}
-<div><a href = "{{url}}>{{firstname}} {{lastname}}</a>, {{age}}</div>
-{{/if}}
-{{/each}} 
+
+
  
+<div class = 'banner__text'><div class = 'banner__text__p'>These {{city}}ers also signed the petition:</div>
+               <div class = 'banner__text__p'>
+                 {{#each userList}}
+
+<div><a href = "{{url}}">{{firstname}} {{lastname}}</a>, {{age}}</div>
+
+{{/each}} </div>
+ </div>

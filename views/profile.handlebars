@@ -1,24 +1,25 @@
-<form method="POST">
-    <div>
-        <label for="age">Age</label>
-        <input type="text" id= "age" name ="age"></input>
+             <div class ='signup'>
+              <h1>Add Profile </h1>   
+                   
+                    <form method="POST">
+    <div class = 'signup__entry'>
+        <img src="./app/images/icon-online.svg" alt="firstimg">
+        <input type="text" id= "age" name ="age" placeholder="Age"></input>
     </div>
      <input type="hidden" name="_csrf" value="{{csrfToken}}">
-<div>
- <lable for="city">City</lable>
-  <input type="text" id="city" name = "city"></input>
+<div class = 'signup__entry'> 
+       <img src="./app/images/icon-budgeting.svg" alt="emailimg"> 
+  <input type="text" id="city" name = "city" placeholder="City"></input>
 </div>
    
-<div> <lable for="url">Personal URL</lable>
- <input type="text" id="url" name = "url"></input>
+<div class = 'signup__entry'>  
+    <img src="./app/images/icon-onboarding.svg">
+ <input type="text" id="url" name = "url" placeholder="Personal url"></input>
  </div>
- <div>
-    <lable for="statement">Personal Statement</lable>
-    <textarea type="text" id="statement" name = "statement" > Anything to say?</textarea>
-    </div>
+ 
 
  
            <div><button type="submit">Submit</button></div>
  
     </form>
-  
+    </div>

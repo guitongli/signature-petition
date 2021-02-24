@@ -210,10 +210,13 @@ a:hover {
 }
 
 .hero__container__right img {
+  width: 100%;
+  height: 100%;
+}
+
+.hero__container__big {
   width: 150%;
   height: 150%;
-  position: relative;
-  right: 100px;
 }
 
 .hero__container__btn a {
@@ -224,6 +227,26 @@ a:hover {
 
 .hero__container__right {
   text-align: center;
+}
+
+.banner {
+  position: relative;
+  width: 100vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.banner__text {
+  position: absolute;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  padding: 0.5rem calc((100vw - 800px) / 2);
+  color: #fafafa;
+  font-size: 1.5rem;
 }
 
 .signup h1 {
@@ -264,6 +287,51 @@ a:hover {
   height: 5px;
   background-color: #9698a6;
   color: #9698a6;
+}
+
+#clear {
+  margin-top: 40px;
+  font-weight: 200;
+  font-size: 1rem;
+  padding-top: 10px;
+  padding-left: 15px;
+  height: 40px;
+  width: 90px;
+  border-radius: 4px;
+  background-image: -webkit-gradient(linear, left top, right top, from(#2bb7da), to(#31d35c));
+  background-image: linear-gradient(to right, #2bb7da, #31d35c);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  position: relative;
+  cursor: pointer;
+  margin-left: 40px;
+}
+
+#clear:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-image: -webkit-gradient(linear, left top, right top, from(#2bb7da), to(#2d314d));
+  background-image: linear-gradient(to right, #2bb7da, #2d314d);
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  border-radius: 4px;
+}
+
+#clear:hover:after {
+  width: 100%;
+}
+
+#clear a {
+  color: #2d314d;
+  text-decoration: none;
+}
+
+.signature_up {
+  margin-top: 40px;
 }
 
 .showlong {
@@ -320,5 +388,6 @@ a:hover {
 
 .delete {
   border: none;
+  margin-left: 40px;
 }
 /*# sourceMappingURL=style.css.map */

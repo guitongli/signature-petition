@@ -41,11 +41,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 //add
 app.use((req, res, next) => {
-    if (req.session.userID) {
-        next();
-    } else {
-        res.redirect("/login");
-    }
+    res.setHeader("X-Frame-Options", "DENY");
+    next();
     // res.redirect("/signup"); !!!
     // need to solve double entry problem
     // need to detect both signed and registered and redirect
@@ -246,8 +243,8 @@ app.post("/thanks", (req, res) => {
     const id = req.session.userID;
     db.deleteSig(id)
         .then((result) => {
-            res.redirect("/petition");
             req.session.signature = null;
+            res.redirect("/petition");
         })
         .catch((Err) => {
             console.log(Err);
@@ -263,7 +260,7 @@ app.get("/petition/signers", checkLoggedIn, (req, res) => {
                 .then((joint) => {
                     const infoList = joint.rows;
                     res.render("signers", {
-                        layout: "signers",
+                        layout: "signerlist",
                         infoList,
                         city,
                     });
@@ -277,12 +274,12 @@ app.get("/petition/signers", checkLoggedIn, (req, res) => {
         });
 });
 
-app.get("/petition/signers/:city", checkLoggedIn, (req, res) => {
+app.get("/petition/:city", checkLoggedIn, (req, res) => {
     const { city } = req.params;
     db.getCitySigners(city).then((infoList) => {
         const userList = infoList.rows;
         res.render("citysigners", {
-            layout: "signed",
+            layout: "signerlist",
             userList,
             city,
         });
@@ -347,6 +344,14 @@ app.post("/profile/edit", csrfProtection, (req, res) => {
         });
 
     res.redirect("/profile");
+});
+
+app.get("/logout", (req, res) => {
+    res.render("loggedout", {
+        layout: "landing_signup",
+    });
+    req.session.userID = null;
+    req.session.signature = null;
 });
 
 app.listen(process.env.PORT || 8080, () => console.log("hi"));

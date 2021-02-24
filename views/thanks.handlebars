@@ -3,7 +3,8 @@
     <p>{{firstname}} {{lastname}}</p>
     <div>
 <img id = 'canvasimg' src = "{{img}}"/>
-<div class = "showlong" ><a href = "/petition/signers">See all {{signedNumber}} signers</a></div>
-<form method = 'post'><input class = 'delete' type = 'submit' name = 'delete' value = 'delete'/></form>
+
+<button class = 'showlong' onclick="location.href='/petition/signers'" id = "signup" type="button">See all {{signedNumber}} signers</button>
+<form method = 'post'><input class = 'delete' type = 'submit' name = 'delete' value = 'Delete my signature'/></form>
 </div>
 </container>

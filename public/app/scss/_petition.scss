@@ -8,6 +8,43 @@
 }
 
 #clear {
+    margin-top: 40px;
+    font-weight: 200;
+    font-size: 1rem;
+    padding-top: 10px;
+    padding-left: 15px;
+    height: 40px;
+    width: 90px;
+
+    border-radius: 4px;
+    background-image: linear-gradient(to right, $brightCyan, $limeGreen);
+    transition: all 0.3s;
+
+    position: relative;
+    cursor: pointer;
+    margin-left: 40px;
+
+    &:after {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        background-image: linear-gradient(to right, $brightCyan, $darkBlue);
+        transition: all 0.3s;
+        border-radius: 4px;
+    }
+    &:hover:after {
+        width: 100%;
+    }
+    & a {
+        color: $darkBlue;
+        text-decoration: none;
+    }
+}
+.signature_up {
+    margin-top: 40px;
 }
 .showlong {
     display: flex;
@@ -51,4 +88,5 @@
 
 .delete {
     border: none;
+    margin-left: 40px;
 }

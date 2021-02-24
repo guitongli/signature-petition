@@ -1,25 +1,22 @@
 <div class ='signup'>
                       
 <form id = 'form' method="POST">
-     <h1>Profile</h1> 
+     <h1>Login</h1> 
        <input type="hidden" name="_csrf" value="{{csrfToken}}">
      
    
     <div class = 'signup__entry'>
         <img src="./app/images/icon-online.svg" alt="firstimg">
-        <input type="text" id= "age" name ="age" placeholder = 'Age'></input>
+        <input type="text" id= "email" name ="email" placeholder = 'Email'></input>
   
-  <input type="text" id="city" name = "city" placeholder="City"></input>
+
 </div>
    
 <div class = 'signup__entry'> 
     <img src="./app/images/icon-budgeting.svg" alt="emailimg"> 
- <input type="text" id="url" name = "url" placeholder="URL"></input>
+ <input type="password" id="keys" name = "keys" placeholder="Password"></input>
  </div>
- <div class = 'signup__entry'>
-    <img src="./app/images/icon-onboarding.svg">
-    <input type="text" id="statement" name = "statement" placeholder="Peronsal Statement"></input>
-    </div>
+
 
 <div class="entry">{{#if incomplete}}
             <h6>Please check your info and submit again</h6>
