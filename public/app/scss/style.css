@@ -248,11 +248,8 @@ a:hover {
 
 .banner img {
   margin: 0;
-  width: 100vw;
-  -ms-grid-column-align: center;
-      justify-self: center;
+  width: 80vw;
   z-index: -1;
-  left: 0;
 }
 
 .fake-button {

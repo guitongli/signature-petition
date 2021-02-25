@@ -368,8 +368,8 @@ app.get("/logout", checkLoggedIn, (req, res) => {
     res.render("loggedout", {
         layout: "landing_signup",
     });
-    req.session.userID = null;
-    req.session.signature = null;
+    req.session.userID = false;
+    req.session.signature = false;
 });
 app.get("/home", checkLoggedIn, (req, res) => {
     res.render("home", {
