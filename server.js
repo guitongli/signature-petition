@@ -364,27 +364,27 @@ app.post("/edit", csrfProtection, (req, res) => {
     res.redirect("/home");
 });
 
-app.get("/logout", (req, res) => {
+app.get("/logout", checkLoggedIn, (req, res) => {
     res.render("loggedout", {
         layout: "landing_signup",
     });
     req.session.userID = null;
     req.session.signature = null;
 });
-app.get("/home", (req, res) => {
+app.get("/home", checkLoggedIn, (req, res) => {
     res.render("home", {
         layout: "home",
     });
 });
-app.get("/goodbye", (req, res) => {
+app.get("/goodbye", checkLoggedIn, (req, res) => {
     var id = req.session.userID;
     db.deleteSig(id)
         .then((result) => {
             db.deleteUserpro(id).then((result) => {
                 db.deleteUser(id)
                     .then((result) => {
-                        req.session.userID = null;
-                        req.session.signature = null;
+                        req.session.userID = false;
+                        req.session.signature = false;
                     })
                     .catch((err) => {
                         console.log(err);

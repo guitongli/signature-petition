@@ -16,7 +16,7 @@ module.exports.checkLoggedOut = (req, res, next) => {
 
 module.exports.checkNotSigned = (req, res, next) => {
     if (req.session.signature) {
-        return res.redirect("/thanks");
+        return res.redirect("/home");
     } else {
         next();
     }
