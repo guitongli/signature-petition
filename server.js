@@ -34,7 +34,7 @@ app.use(
     cookieSession({
         secret: cookie_sec,
         maxAge: 1000 * 60 * 60 * 24,
-        ecure: false,
+        secure: false,
     })
 );
 app.use(express.urlencoded({ extended: false }));
